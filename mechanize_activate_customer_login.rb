@@ -10,7 +10,12 @@ if ARGV.size < 5
     exit
 end
 
-# the shop name in the Shopify URL, e.g. "antiques" for "antiques.myshopify.com"
+#
+# Invoke this script on the command line like this:
+# 
+#     ruby mechanize_activate_customer_login.rb shopname mechanize@shop.com mechanize_password customer@gmail.com new_password
+#
+
 shop_name = ARGV[0]
 admin_email = ARGV[1]
 admin_password = ARGV[2]
