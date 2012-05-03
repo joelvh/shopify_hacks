@@ -1,14 +1,31 @@
-
-function getShopifyCheckoutUrl(shop_id, email) {
+// Get the Shopify checkout URL
+function getShopifyCheckoutUrl(shop_id) {
 	var cart_token = readCookie("cart");
 	//checkout URL has "create_order" appended to it to allow pre-filling forms
 	var checkout_url = "https://checkout.shopify.com/carts/" + shop_id + "/" + cart_token + "/create_order";
-	//if an email address is specified, append it to pre-fill forms
-	if (email) {
-		checkout_url += "?order[email]=" + encodeURIComponent(email);
-	}
 	
 	return checkout_url;
+}
+
+// Create query string parameters for the checkout page to pre-fill the checkout form
+function getShopifyCheckoutPrefillQueryString(params) {
+	var query = [];
+	//create query string that pre-populates the checkout form
+	if (params) {
+		for (key in params) {
+			query.push( "order[" + encodeURIComponent(key) + "]=" + encodeURIComponent(params[key]) )
+		}
+	}
+	
+	return query.join("&");
+}
+
+// Get the Shopify checkout URL with query string parameters to pre-fill the checkout form
+function getShopifyCheckoutUrlWithPrefillQueryString(shop_id, params) {
+	var checkout_url = getShopifyCheckoutUrl(shop_id);
+	var query = getShopifyCheckoutPrefillQueryString(params);
+	
+	return checkout_url + "?" + query;
 }
 
 function readCookie(name) {
