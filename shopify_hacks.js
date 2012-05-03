@@ -1,3 +1,29 @@
+/* FORM FIELDS ON SHOPIFY CHECKOUT PAGE:
+
+order[email] 
+billing_address[first_name] 
+billing_address[last_name] 
+billing_address[company] 
+billing_address[address1] 
+billing_address[address2] 
+billing_address[city] 
+billing_address[zip] 
+billing_address[country] United States
+billing_address[province] 
+billing_address[phone] 
+billing_is_shipping on
+shipping_address[first_name] 
+shipping_address[last_name] 
+shipping_address[company] 
+shipping_address[address1] 
+shipping_address[address2] 
+shipping_address[city] 
+shipping_address[zip] 
+shipping_address[country] United States
+shipping_address[province] 
+shipping_address[phone] 
+*/
+
 // Get the Shopify checkout URL
 function getShopifyCheckoutUrl(shop_id) {
 	var cart_token = readCookie("cart");
