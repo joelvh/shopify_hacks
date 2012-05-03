@@ -7,13 +7,41 @@ function getShopifyCheckoutUrl(shop_id) {
 	return checkout_url;
 }
 
-// Create query string parameters for the checkout page to pre-fill the checkout form
-function getShopifyCheckoutPrefillQueryString(params) {
+// Create query string parameters for the checkout page to pre-fill the checkout form. 
+// Model names are "order", "billing_address", and "shipping_address". 
+// Example "models" argument:
+// models = { 
+//            order: { 
+//              email: "name@domain.com" 
+//            }, 
+//            billing_address: { 
+//              first_name: "Joel", 
+//              last_name: "Van Horn" 
+//            
+//              // additional attributes: company, address1, address2, city, zip, country, province, phone
+//
+//            }, 
+//            shipping_address: { 
+//              first_name: "Joel", 
+//              last_name: "Van Horn" 
+//            
+//              // additional attributes: company, address1, address2, city, zip, country, province, phone
+//
+//            } 
+//          }
+function getShopifyCheckoutPrefillQueryString(models) {
 	var query = [];
 	//create query string that pre-populates the checkout form
-	if (params) {
-		for (key in params) {
-			query.push( "order[" + encodeURIComponent(key) + "]=" + encodeURIComponent(params[key]) )
+	if (models) {
+		//loop through each model
+		for (name in models) {
+			//loop through each attribute
+			for (attribute in models[name]) {
+				var param = encodeURIComponent(name) + "[" + encodeURIComponent(attribute) + "]",
+				    value = encodeURIComponent(models[name][attribute]);
+				//add query string name/value pair
+				query.push( param + "=" + value);
+			}
 		}
 	}
 	
