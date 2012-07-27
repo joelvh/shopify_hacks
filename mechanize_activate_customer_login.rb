@@ -89,20 +89,31 @@ unless customer_results.size == 0
     puts "Using activation code as customer password"
     
     pp activate_result_page
-    
-    activate_form = activate_result_page.forms.first
-    # if you're generating a random password, you could use the invite code 
+
+    # Loops through all forms on activate_result_page to identify form which contains password fields,
+    # and assigns discovered field to activate_form
+    activate_form = nil
+    activate_result_page.forms.each do |form|
+      form.fields.each do |field|
+        if field.name.include?('password')
+          activate_form = form
+          break
+        end
+      end
+    end
+
+    # if you're generating a random password, you could use the invite code
     # because it is randomly generated each time the invite email is displayed
     activate_form['customer[password]'] = customer_password
     activate_form['customer[password_confirmation]'] = customer_password
-    
+
     puts "Submitting activation form"
-    
+
     pp agent.submit(activate_form, activate_form.buttons.first)
-    
+
     last_time, this_time = this_time, Time.now
     puts "   ... elapsed total (#{this_time-start_time}) since last (#{this_time-last_time})"
-    
+
     puts "Email (#{customer_email})"
 
 end
